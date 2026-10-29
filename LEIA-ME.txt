@@ -1,0 +1,33 @@
+JUJUTSU KAISEN RPG SIMPLIFICADO - SITE PARA O GITHUB PAGES
+
+ARQUIVOS (todos na mesma pasta, sem subpastas exceto "icons"):
+  index.html            o site inteiro
+  sw.js                 faz o site abrir sem internet
+  manifest.webmanifest  permite instalar no celular
+  icons/                ícones do app (3 imagens PNG)
+
+COMO PUBLICAR
+1. Em github.com, clique em "New repository". Dê um nome (ex.: jjk-rpg), deixe "Public" e crie.
+2. Na página do repositório, clique em "uploading an existing file".
+3. Arraste TODO o conteúdo desta pasta (index.html, sw.js, manifest.webmanifest e a pasta icons) e clique em "Commit changes".
+   Dica: arraste os arquivos e a pasta "icons" juntos; o GitHub mantém a estrutura.
+4. Vá em Settings > Pages. Em "Build and deployment", escolha "Deploy from a branch", branch "main", pasta "/ (root)" e salve.
+5. Espere 1 a 2 minutos. O endereço aparece na mesma tela: https://SEU-USUARIO.github.io/jjk-rpg/
+
+INSTALAR NO CELULAR
+  Android (Chrome): menu ... > "Instalar app" / "Adicionar à tela inicial".
+  iPhone (Safari): botão Compartilhar > "Adicionar à Tela de Início".
+
+ATUALIZAR DEPOIS
+  Envie o novo index.html para o repositório (Add file > Upload files, substituindo).
+  Edite o sw.js e troque VERSAO='v1' por 'v2' (depois 'v3'...), senão o celular pode continuar mostrando a versão antiga guardada.
+
+IMPORTANTE SOBRE OS DADOS
+  Fichas, bestiário e relatórios ficam salvos no navegador de cada aparelho (não vão para o GitHub).
+  Para guardar ou levar para outro aparelho, use Copiar / Salvar arquivo e Importar.
+  Se limpar os dados do navegador, tudo some: faça cópias de vez em quando.
+
+AVISO
+  Material de fã, não oficial e sem fins lucrativos. Jujutsu Kaisen pertence a Gege Akutami e à Shueisha.
+  Se o repositório for público, qualquer pessoa pode abrir o link. Se quiser privado, use um repositório privado
+  (Pages em repositório privado exige plano pago do GitHub).
