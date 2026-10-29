@@ -1,6 +1,6 @@
 // Service worker: deixa o site funcionar sem internet.
 // Sempre que você trocar o index.html, aumente este número (v1 -> v2...) para os aparelhos pegarem a versão nova.
-var VERSAO='v1';
+var VERSAO='v2';
 var CACHE='jjk-rpg-'+VERSAO;
 var ARQUIVOS=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png'];
 self.addEventListener('install',function(e){
