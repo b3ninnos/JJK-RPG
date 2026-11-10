@@ -149,6 +149,17 @@ footer{margin-top:40px;color:var(--muted);font-size:.8rem;border-top:1px solid v
 pre.inv{white-space:pre-wrap;font:.85rem/1.5 var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:10px;margin:0 0 6px;overflow-x:auto}
 .tcost{width:62px;padding:2px 4px}
 
+.qbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:10px}
+.qbar .who{flex:1 1 200px}.qbar .who b{font-family:var(--display);font-size:1.35rem}
+.qchip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px 10px;text-align:center;min-width:58px}
+.qchip small{display:block;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.qchip b{font-size:1.05rem}
+.stabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:14px}
+.stabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:9px 14px;white-space:nowrap;font-weight:600;color:var(--muted)}
+.stabs button[aria-current="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.vit{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.vit input{font-size:1.5rem;font-weight:700;text-align:center}
+.vit .steps{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}.vit .steps button{flex:1 1 0;min-width:44px}
+
 a.brand{text-decoration:none;color:inherit}
 .hero{position:relative;min-height:300px;border-radius:14px;overflow:hidden;background:#0c0a16 var(--img) right center/auto 100% no-repeat;display:flex;align-items:center;margin:4px 0 16px;border:1px solid var(--line)}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(8,6,16,.97) 0%,rgba(8,6,16,.85) 38%,rgba(8,6,16,.25) 62%,rgba(8,6,16,0) 80%)}
@@ -200,9 +211,20 @@ a.tile:hover,a.tile:focus-visible{border-color:var(--accent);outline:2px solid v
   <h2 class="sec">Fichas de personagem</h2>
   <div id="flist"></div>
   <div id="fedit" hidden>
-  <div class="row" style="margin-bottom:8px"><button type="button" id="fe-back">← Todas as fichas</button></div>
-  <p class="muted" style="margin-top:-6px">Os cálculos seguem os capítulos 2, 4 e 11 do Livro Básico. Tudo é salvo neste navegador.</p>
-  <div class="grid g2" style="margin-bottom:14px">
+<div class="qbar"><button type="button" id="fe-back">← Fichas</button><div class="who" id="qwho"></div><div class="row" id="qchips"></div></div>
+<nav class="stabs" id="stabs"><button type="button" data-s="jogo" aria-current="true">Jogo</button><button type="button" data-s="pers" aria-current="false">Personagem</button><button type="button" data-s="peri" aria-current="false">Perícias</button><button type="button" data-s="habs" aria-current="false">Habilidades</button><button type="button" data-s="tec" aria-current="false">Técnica</button><button type="button" data-s="notas" aria-current="false">Notas</button></nav>
+<div class="fsec" data-s="jogo">
+<div class="vit"><div class="panel"><label class="f"><span>PV atual</span><input type="number" data-k="pv" data-num></label><div class="steps"><button type="button" class="sm" data-step="pv|-10">−10</button><button type="button" class="sm" data-step="pv|-5">−5</button><button type="button" class="sm" data-step="pv|-1">−1</button><button type="button" class="sm" data-step="pv|1">+1</button><button type="button" class="sm" data-step="pv|5">+5</button><button type="button" class="sm" data-step="pv|10">+10</button></div></div><div class="panel"><label class="f"><span>PE atual</span><input type="number" data-k="pe" data-num></label><div class="steps"><button type="button" class="sm" data-step="pe|-5">−5</button><button type="button" class="sm" data-step="pe|-2">−2</button><button type="button" class="sm" data-step="pe|-1">−1</button><button type="button" class="sm" data-step="pe|1">+1</button><button type="button" class="sm" data-step="pe|2">+2</button><button type="button" class="sm" data-step="pe|5">+5</button></div></div><div class="panel"><label class="f"><span>Integridade da alma</span><input type="number" data-k="alma" data-num></label><div class="steps"><button type="button" class="sm" data-step="alma|-10">−10</button><button type="button" class="sm" data-step="alma|-5">−5</button><button type="button" class="sm" data-step="alma|-1">−1</button><button type="button" class="sm" data-step="alma|1">+1</button><button type="button" class="sm" data-step="alma|5">+5</button><button type="button" class="sm" data-step="alma|10">+10</button></div></div></div><div class="panel" style="margin-top:12px"><div class="row" style="margin-top:10px">
+        <button id="b-curto" type="button" class="sm">Gastar dado de vida (d?)</button>
+        <button id="b-longo" type="button" class="sm">Descanso longo</button>
+      </div>
+      <p class="muted" style="font-size:.85rem" id="restinfo"></p></div><div id="tec-play-wrap" class="panel" style="margin-top:12px"><h3 style="margin:0 0 6px">Técnica em uso</h3><div class="slots" id="tec-slots"></div><div id="tec-last"></div><div id="tec-mine"></div></div><div style="margin-top:12px"><div class="panel">
+      <h3 style="margin:0 0 8px">Testes de resistência</h3>
+      <div id="trs"></div>
+    </div></div>
+</div>
+<div class="fsec" data-s="pers" hidden>
+<p class="muted" style="margin:0 0 10px;font-size:.88rem">Os cálculos seguem os capítulos 2, 4 e 11 do Livro Básico. Tudo é salvo neste navegador.</p><div class="grid g2" style="margin-bottom:14px">
     <div class="panel grid" style="gap:10px">
       <label class="f"><span>Nome</span><input id="f-nome" data-k="nome"></label>
       <div class="grid g2" style="gap:10px">
@@ -232,51 +254,22 @@ a.tile:hover,a.tile:focus-visible{border-color:var(--accent);outline:2px solid v
   <h3 style="margin:18px 0 8px">Estatísticas</h3>
   <div class="grid g3" id="stats"></div>
 
-  <div class="grid g2" style="margin-top:14px">
-    <div class="panel">
-      <h3 style="margin:0 0 8px">Pontos atuais</h3>
-      <div class="grid g3" style="gap:10px">
-        <label class="f"><span>PV atual</span><input type="number" data-k="pv" data-num></label>
-        <label class="f"><span>PE atual</span><input type="number" data-k="pe" data-num></label>
-        <label class="f"><span>Integridade da alma</span><input type="number" data-k="alma" data-num></label>
-        <label class="f"><span>Dados de vida gastos</span><input type="number" data-k="dvg" data-num></label>
-        <label class="f"><span>PV máx. extra</span><input type="number" data-k="pvx" data-num></label>
-        <label class="f"><span>PE máx. extra</span><input type="number" data-k="pex" data-num></label>
-        <label class="f"><span>CA extra</span><input type="number" data-k="cax" data-num></label>
-        <label class="f"><span>Movimento extra (m)</span><input type="number" data-k="mvx" data-num></label>
-        <label class="f"><span>CD extra</span><input type="number" data-k="cdx" data-num></label>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button id="b-curto" type="button" class="sm">Gastar dado de vida (d?)</button>
-        <button id="b-longo" type="button" class="sm">Descanso longo</button>
-      </div>
-      <p class="muted" style="font-size:.85rem" id="restinfo"></p>
-    </div>
-    <div class="panel">
-      <h3 style="margin:0 0 8px">Testes de resistência</h3>
-      <div id="trs"></div>
-    </div>
-  </div>
-
-  <h3 style="margin:18px 0 8px">Perícias</h3>
+  <details class="panel" style="margin-top:14px"><summary><b>Ajustes manuais</b> <span class="muted">(bônus extras, dados de vida)</span></summary><div class="grid g3" style="gap:10px;margin-top:10px"><label class="f"><span>Dados de vida gastos</span><input type="number" data-k="dvg" data-num></label><label class="f"><span>PV máx. extra</span><input type="number" data-k="pvx" data-num></label><label class="f"><span>PE máx. extra</span><input type="number" data-k="pex" data-num></label><label class="f"><span>CA extra</span><input type="number" data-k="cax" data-num></label><label class="f"><span>Movimento extra (m)</span><input type="number" data-k="mvx" data-num></label><label class="f"><span>CD extra</span><input type="number" data-k="cdx" data-num></label></div></details>
+</div>
+<div class="fsec" data-s="peri" hidden>
+<h3 style="margin:18px 0 8px">Perícias</h3>
   <p class="muted" style="font-size:.9rem;margin-top:0">Bônus = modificador do atributo + metade do nível + maestria (+ metade da maestria se especialista). Marque as maestrias que sua especialização, origem e perícias extras concedem.</p>
   <div class="panel scrollx"><table class="sk" id="sk"></table></div>
 
-  <h3 style="margin:18px 0 8px">Habilidades, talentos e aptidões</h3>
-  <div class="panel">
-    <div class="slots" id="slots"></div>
-    <p class="muted" style="font-size:.88rem;margin:0 0 8px">A cada nível, a partir do 2º, você recebe uma habilidade de especialização ou um talento, e uma aptidão amaldiçoada (Cap. 4). Habilidades base da sua especialização entram sozinhas conforme o nível. Os bônus numéricos das escolhas são somados nas estatísticas acima.</p>
-    <div class="row" style="margin-bottom:6px">
+  
+</div>
+<div class="fsec" data-s="habs" hidden>
+<div class="panel"><div class="slots" id="slots"></div><p class="muted" style="font-size:.88rem;margin:0 0 8px">A cada nível, a partir do 2º, você recebe uma habilidade de especialização ou um talento, e uma aptidão amaldiçoada (Cap. 4). Habilidades base da sua especialização entram sozinhas conforme o nível. Os bônus numéricos das escolhas são somados nas estatísticas acima.</p><h4 style="margin:12px 0 4px;font-family:var(--display)">Na sua ficha</h4><div id="mine"></div><details style="margin-top:12px"><summary><b>Slots extras e níveis de aptidão</b></summary><div style="margin-top:8px"><div class="row" style="margin-bottom:6px">
       <label class="f" style="min-width:90px"><span>Slots extras (habil./talento)</span><input type="number" min="0" data-k="xslot" data-num></label>
       <label class="f" style="min-width:90px"><span>Aptidões extras</span><input type="number" min="0" data-k="xapt" data-num></label>
-    </div>
-    <h4 style="margin:12px 0 4px;font-family:var(--display)">Níveis de aptidão (0 a 5)</h4>
+    </div><h4 style="margin:12px 0 4px;font-family:var(--display)">Níveis de aptidão (0 a 5)</h4>
     <div class="aptl" id="aptl"></div>
-    <p class="muted" style="font-size:.85rem;margin:0" id="aptinfo"></p>
-    <h4 style="margin:14px 0 4px;font-family:var(--display)">Na sua ficha</h4>
-    <div id="mine"></div>
-  </div>
-  <div class="panel" style="margin-top:14px">
+    <p class="muted" style="font-size:.85rem;margin:0" id="aptinfo"></p></div></details></div><h3 style="margin:18px 0 8px">Adicionar do catálogo</h3><div class="panel" style="margin-top:14px">
     <div class="row" style="margin-bottom:8px">
       <label class="f" style="flex:1 1 220px"><span>Catálogo</span><select id="cat-kind">
         <option value="hab">Habilidades da minha especialização</option><option value="habx">Habilidades de outras especializações (multiclasse)</option>
@@ -288,35 +281,20 @@ a.tile:hover,a.tile:focus-visible{border-color:var(--accent);outline:2px solid v
     <div class="lst" id="cat-list"></div>
   </div>
 
-  <div class="panel" id="tec-panel" style="margin-top:14px">
-    <h3 style="margin:0 0 4px">Técnica amaldiçoada</h3>
-    <p class="muted" style="margin:0 0 8px;font-size:.88rem">Textos da Enciclopédia Amaldiçoada. Escolha a técnica, adicione habilidades e use os botões: o custo sai do PE, os dados são rolados e a CD usa o atributo da técnica. Passivas reduzem o PE máximo sozinhas.</p>
-    <div class="row" style="margin-bottom:8px">
-      <label class="f" style="flex:1 1 240px"><span>Técnica</span><select id="tec-sel"></select></label>
-      <label class="f" style="flex:2 1 200px"><span>Buscar nas habilidades</span><input id="tec-q" type="search" placeholder="Nome ou trecho"></label>
-      <label class="f" style="flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0"><input type="checkbox" id="tec-av"> só o que já posso usar</label>
-    </div>
-    <div class="slots" id="tec-slots"></div>
-    <div id="tec-last"></div>
-    <h4 style="margin:12px 0 4px;font-family:var(--display)">Na sua ficha</h4>
-    <div id="tec-mine"></div>
-    <h4 style="margin:14px 0 4px;font-family:var(--display)">Texto da técnica e habilidades</h4>
-    <div class="lst" id="tec-book" style="max-height:640px"></div>
-  </div>
-
-  <div class="grid g2" style="margin-top:14px">
-    <label class="f panel"><span>Habilidades próprias e anotações da técnica</span><textarea data-k="tec" rows="6"></textarea></label>
-    <label class="f panel"><span>Equipamentos (limite de espaços na seção Estatísticas)</span><textarea data-k="equip" rows="5"></textarea></label>
-    <label class="f panel"><span>Invocações, aliados e votos</span><textarea data-k="inv" rows="5"></textarea></label>
-    <label class="f panel"><span>Anotações e história</span><textarea data-k="notas" rows="5"></textarea></label>
-  </div>
-  <div class="panel" style="margin-top:14px">
+  
+</div>
+<div class="fsec" data-s="tec" hidden>
+<div id="tec-pick-wrap" class="panel"><h3 style="margin:0 0 4px">Técnica amaldiçoada</h3><p class="muted" style="margin:0 0 8px;font-size:.88rem">Escolha a técnica e adicione habilidades. Para usar, vá na aba Jogo.</p><div class="row" style="margin-bottom:8px"><label class="f" style="flex:1 1 240px"><span>Técnica</span><select id="tec-sel"></select></label><label class="f" style="flex:2 1 200px"><span>Buscar nas habilidades</span><input id="tec-q" type="search" placeholder="Nome ou trecho"></label><label class="f" style="flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0"><input type="checkbox" id="tec-av"> só o que já posso usar</label></div><div class="lst" id="tec-book" style="max-height:640px"></div></div><div style="margin-top:14px"><label class="f panel"><span>Habilidades próprias e anotações da técnica</span><textarea data-k="tec" rows="6"></textarea></label></div>
+</div>
+<div class="fsec" data-s="notas" hidden>
+<div class="grid g2"><label class="f panel"><span>Equipamentos (limite de espaços na seção Estatísticas)</span><textarea data-k="equip" rows="5"></textarea></label><label class="f panel"><span>Invocações, aliados e votos</span><textarea data-k="inv" rows="5"></textarea></label><label class="f panel"><span>Anotações e história</span><textarea data-k="notas" rows="5"></textarea></label></div><div class="panel" style="margin-top:14px">
     <div class="row"><button id="b-exp" type="button">Exportar ficha</button><button id="b-imp" type="button">Importar do texto</button><button id="b-new" type="button">Nova ficha</button><span class="muted" id="exmsg"></span></div>
     <textarea id="exbox" placeholder="O texto da ficha exportada aparece aqui. Cole um texto exportado e use Importar." style="margin-top:8px;font-family:var(--mono);font-size:.8rem"></textarea>
   </div>
   </div>
 </section>
-
+</div>
+</div>
 <section class="view" id="v-dados" hidden>
   <h2 class="sec">Rolador de dados</h2>
   <div class="grid g2">
@@ -666,7 +644,8 @@ function skillBonus(i){
   if(S.mast[i]||FX.mast.has(n)||FX.esp.has(n)){b+=pb; if((S.esp[i]||FX.esp.has(n))&&n!=='Luta'&&n!=='Pontaria') b+=Math.floor(pb/2)}
   return b+(FX.per[n]||0);
 }
-function calc(){
+function calc(){calc0();quickBar()}
+function calc0(){
   S.nivel=Math.max(1,Math.min(20,+S.nivel||1));
   computeFx();
   const sp=SPECS[S.spec], N=S.nivel, mc=mod('con'), pb=MAESTRIA(N);
@@ -790,7 +769,7 @@ function renderList(){
 }
 function openSheet(id){
   if(!BOOK.byId[id])return; save(); BOOK.cur=id; S=normS(BOOK.byId[id]); BOOK.byId[id]=S;
-  buildFicha();calc();renderHab();renderTec();showFichaMode(true);
+  buildFicha();calc();renderHab();renderTec();fTab('jogo');showFichaMode(true);
 }
 function closeSheet(){save();showFichaMode(false);renderList()}
 function newSheet(){
@@ -885,13 +864,13 @@ function invBlock(it,ti,ii){
   return '<div class="tecblk"><pre class="inv">'+esc(it.x)+'</pre>'+acts+'</div>';
 }
 function renderTec(){
-  const box=$('#tec-panel');if(!box)return;
-  if(S.spec==='restringido'){box.hidden=true;return}
-  box.hidden=false;
+  const bp=$('#tec-pick-wrap'),bl=$('#tec-play-wrap');if(!bp)return;
+  if(S.spec==='restringido'){bp.hidden=true;bl.hidden=true;return}
+  bp.hidden=false;bl.hidden=false;
   const selEl=$('#tec-sel');
   if(!selEl.options.length){const op=t=>'<option value="'+esc(t.nome)+'">'+esc(t.nome)+(t.dono?' – '+esc(t.dono):'')+'</option>';selEl.innerHTML='<option value="">Nenhuma / técnica própria</option><optgroup label="Enciclopédia Amaldiçoada">'+TEC.filter(t=>!t.adapt).map(op).join('')+'</optgroup><optgroup label="Adaptações da wiki (não oficiais)">'+TEC.filter(t=>t.adapt).map(op).join('')+'</optgroup>'}
   selEl.value=S.tec||'';
-  const op=new Set([...document.querySelectorAll('#tec-panel details[open]')].map(d=>d.dataset.key));
+  const op=new Set([...document.querySelectorAll('#fedit details[open]')].map(d=>d.dataset.key));
   const si=tecSlots();
   $('#tec-slots').innerHTML='<span class="slot '+(si.used>si.allow?'over':'ok')+'">Habilidades de técnica: '+si.used+' de '+si.allow+(si.extra?' (inclui '+si.extra+' extra)':'')+'</span><span class="slot">Acesso até o nível '+maxTecLv()+'</span><span class="slot">CD de técnica '+techCD()+'</span><span class="slot">Atributo da técnica: '+ATTRN[S.tatr]+' '+sgn(mod(S.tatr))+'</span>';
   const t=TECN[S.tec];
@@ -950,7 +929,7 @@ function execSword(){
 
 $('#tec-sel').addEventListener('change',e=>{S.tec=e.target.value;S.tab=[];calc();renderTec()});
 $('#tec-q').addEventListener('input',renderTec);$('#tec-av').addEventListener('change',renderTec);
-$('#tec-panel').addEventListener('click',e=>{
+$('#fedit').addEventListener('click',e=>{
   const g=a=>e.target.closest('['+a+']');
   let b;
   if(b=g('data-tadd')){e.preventDefault();if(!S.tab.includes(b.dataset.tadd))S.tab.push(b.dataset.tadd);calc();renderTec()}
@@ -966,9 +945,27 @@ $('#tec-panel').addEventListener('click',e=>{
   else if(b=g('data-iatk')){const a=INVACT[b.dataset.iatk];rollExpr('1d20+'+a.atk,a.n+' — acerto');renderLast()}
   else if(b=g('data-idmg')){const a=INVACT[b.dataset.idmg];rollExpr(a.dmg,a.n+' — dano '+a.dt);renderLast()}
 });
-$('#tec-panel').addEventListener('input',e=>{const t=e.target;if(t.dataset.tc){S.tcost[t.dataset.tc]=Math.max(0,+t.value||0);save()}});
+$('#fedit').addEventListener('input',e=>{const t=e.target;if(t.dataset.tc){S.tcost[t.dataset.tc]=Math.max(0,+t.value||0);save()}});
 $('#v-ficha').addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k==='nivel'||k==='tatr'||k==='cdx')renderTec()});
 $('#v-ficha').addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k==='spec'||k==='tatr')renderTec()});
+
+/* ---------- LAYOUT DA FICHA: abas, resumo e ajustes rápidos ---------- */
+let FT='jogo';
+function fTab(t){FT=t;$$('#fedit .fsec').forEach(e=>e.hidden=e.dataset.s!==t);$$('#stabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.s===t)))}
+$('#stabs').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(b){fTab(b.dataset.s);window.scrollTo(0,0)}});
+function quickBar(){
+  const w=$('#qwho');if(!w)return;
+  const sp=SPECS[S.spec]||{n:''},N=+S.nivel||1,mx=maxes(),ca=10+mod('des')+(+S.cax||0)+FX.ca;
+  w.innerHTML='<b>'+esc(S.nome||'Sem nome')+'</b><div class="muted" style="font-size:.88rem">'+esc(sp.n)+' · nível '+N+(S.tec?' · '+esc(S.tec):'')+'</div>';
+  const ch=(l,v)=>'<div class="qchip"><small>'+l+'</small><b>'+v+'</b></div>';
+  $('#qchips').innerHTML=ch('PV',(+S.pv||0)+'/'+mx.pv)+ch('PE',S.spec==='restringido'?'—':(+S.pe||0)+'/'+mx.pe)+ch('CA',ca)+ch('Inic.',sgn(mod('des')+FX.ini))+ch('Mov.',(9+(+S.mvx||0)+FX.mov)+' m')+(S.spec==='restringido'?'':ch('CD téc.',techCD()));
+}
+$('#fedit').addEventListener('click',e=>{
+  const b=e.target.closest('[data-step]');if(!b)return;
+  const [k,d]=b.dataset.step.split('|'),mx=maxes(),cap=k==='pv'?mx.pv:k==='pe'?mx.pe:100;
+  S[k]=Math.max(0,Math.min(cap,(+S[k]||0)+(+d)));
+  syncInputs();calc();
+});
 
 /* ---------- início ---------- */
 buildFicha();calc();renderHab();renderTec();renderList();showFichaMode(false);renderLog();renderCb();renderToc();openChapter('livro','intro');route();
